@@ -37,3 +37,11 @@ class TextTokenizer:
             return [self.sp_model.decode(seq) for seq in ids]
             
         return self.sp_model.decode(ids)
+
+    @classmethod
+    def from_existing(cls, model_path: str):
+        instance = cls.__new__(cls)
+        instance.sp_model = spm.SentencePieceProcessor(model_file=str(model_path))
+        instance.vocab_size = instance.sp_model.get_piece_size()
+        return instance
+
